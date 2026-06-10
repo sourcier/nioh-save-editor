@@ -64,10 +64,11 @@ src/
   preload/         Typed IPC bridge
   renderer/src/    React 19 UI (App.tsx + tab components)
 src/data/          items.json + effects.json
-tools/             Place pc.exe / ps4.exe here
+tools/             Place ps4.exe here (PS4-encrypted saves only)
 ```
 
 ## Credits
 
 - Original Python editor: [alfizari/Nioh-2-Save-Editor](https://github.com/alfizari/Nioh-2-Save-Editor)
+- Encryption algorithm: [pawREP/Nioh-Savedata-Decryption-Tool](https://github.com/pawREP/Nioh-Savedata-Decryption-Tool) (MIT)
 - Save format research by the Save Wizard community
