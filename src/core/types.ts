@@ -78,13 +78,18 @@ export interface CharacterStats {
   magic: number
   ninjitsu: number
   onmyo: number
+  soulFragments: number
   sword: number
   dualSword: number
+  spear: number
   axe: number
   kusarigama: number
   odachi: number
   tonfa: number
   hatchet: number
+  switchglaive: number
+  splitstaff: number
+  fist: number
 }
 
 export interface SaveData {

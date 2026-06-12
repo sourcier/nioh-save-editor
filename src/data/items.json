@@ -4356,8 +4356,8 @@
         "type": "Armor - Head Armor"
     },
     "8200": {
-        "name": "Ranjatai Fragment",
-        "type": "Key Items"
+        "name": "Courtier's Cuirass",
+        "type": "Armor - Torso Armor"
     },
     "773E": {
         "name": "Coutier's Gauntlets",
@@ -9958,5 +9958,413 @@
     "44C0": {
         "name": "Penance Stone of the Nioh",
         "type": "Stone"
+    },
+    "93E9": {
+        "name": "Raikiri",
+        "type": "Weapon"
+    },
+    "60E9": {
+        "name": "Unnamed Item (Monk Staff Sword)",
+        "type": "Weapon"
+    },
+    "5E36": {
+        "name": "Mino Dual Uchigatana",
+        "type": "Weapon"
+    },
+    "7E26": {
+        "name": "Soshu Dual Uchigatana",
+        "type": "Weapon"
+    },
+    "0475": {
+        "name": "Wisdom Sutra Sword & Plane Cutter",
+        "type": "Weapon"
+    },
+    "0384": {
+        "name": "Bamboo Cutter & Bone Feaster",
+        "type": "Weapon"
+    },
+    "7E93": {
+        "name": "Lone Sword & Catfish Tail",
+        "type": "Weapon"
+    },
+    "09E4": {
+        "name": "Cross Spear",
+        "type": "Weapon"
+    },
+    "1E01": {
+        "name": "Unamed Item",
+        "type": "Weapon"
+    },
+    "0559": {
+        "name": "Crescent Moon Kusarigama",
+        "type": "Weapon"
+    },
+    "7E47": {
+        "name": "Suwa Myojin Sickle",
+        "type": "Weapon"
+    },
+    "04E6": {
+        "name": "Jakirimaru",
+        "type": "Weapon"
+    },
+    "5E70": {
+        "name": "Sunderer",
+        "type": "Weapon"
+    },
+    "3E83": {
+        "name": "Sekishu Kazusada",
+        "type": "Weapon"
+    },
+    "20E4": {
+        "name": "Unnamed Item (Giant Metal Scrap Odachi)",
+        "type": "Weapon"
+    },
+    "0164": {
+        "name": "Warrior Monk's Hatchets",
+        "type": "Weapon"
+    },
+    "42E0": {
+        "name": "Martial Artist's Hatchets",
+        "type": "Weapon"
+    },
+    "7E94": {
+        "name": "Evil-Crusher Switchglaive",
+        "type": "Weapon"
+    },
+    "1E10": {
+        "name": "Unnamed Item (Benkei's Naginata)",
+        "type": "Weapon"
+    },
+    "0797": {
+        "name": "Hunter's Splitstaff",
+        "type": "Weapon"
+    },
+    "6E97": {
+        "name": "Kiryoki's Splitstaff",
+        "type": "Weapon"
+    },
+    "79E3": {
+        "name": "Wooden Fists",
+        "type": "Weapon"
+    },
+    "0621": {
+        "name": "Ninja Master Fists",
+        "type": "Weapon"
+    },
+    "0437": {
+        "name": "Chief's Fists",
+        "type": "Weapon"
+    },
+    "0910": {
+        "name": "Demon Arm Fists",
+        "type": "Weapon"
+    },
+    "89E1": {
+        "name": "RETURN TO THE MAIN MENU?",
+        "type": "Weapon"
+    },
+    "0799": {
+        "name": "Raishodo",
+        "type": "Weapon"
+    },
+    "75E4": {
+        "name": "Hand Cannon",
+        "type": "Weapon"
+    },
+    "0123": {
+        "name": "Unnamed Item",
+        "type": "Weapon"
+    },
+    "30E2": {
+        "name": "Irregular Troop's Gauntlets",
+        "type": "Armor - Arm Guards"
+    },
+    "3E30": {
+        "name": "Irregular Troop's Waistguard",
+        "type": "Armor - Leg Guards"
+    },
+    "5E71": {
+        "name": "Thief's Gauntlets",
+        "type": "Armor - Arm Guards"
+    },
+    "06E2": {
+        "name": "Onmyo Hunting Hat",
+        "type": "Armor - Head Armor"
+    },
+    "2E22": {
+        "name": "Saika Clan Gauntlets",
+        "type": "Armor - Arm Guards"
+    },
+    "5E01": {
+        "name": "Kawanami Clan Greaves",
+        "type": "Armor - Foot Guards"
+    },
+    "94E8": {
+        "name": "Yoshitsune's Greaves",
+        "type": "Armor - Foot Guards"
+    },
+    "0651": {
+        "name": "Unnamed Item",
+        "type": "Armor - Foot Guards"
+    },
+    "27E6": {
+        "name": "Unnamed Item",
+        "type": "Armor - Torso Armor"
+    },
+    "0461": {
+        "name": "Mataza's Helmet",
+        "type": "Armor - Head Armor"
+    },
+    "0992": {
+        "name": "Eccentric's Waistguard",
+        "type": "Armor - Leg Guards"
+    },
+    "33E6": {
+        "name": "Gallant Gauntlets",
+        "type": "Armor - Arm Guards"
+    },
+    "5E20": {
+        "name": "Unnamed Item",
+        "type": "Armor - Leg Guards"
+    },
+    "0163": {
+        "name": "Unnamed Item",
+        "type": "Armor - Foot Guards"
+    },
+    "95E6": {
+        "name": "Unnamed Item",
+        "type": "Armor - Torso Armor"
+    },
+    "0059": {
+        "name": "Kintaro's Cuirass",
+        "type": "Armor - Torso Armor"
+    },
+    "64E9": {
+        "name": "Kintaro's Gauntlets",
+        "type": "Armor - Arm Guards"
+    },
+    "33E7": {
+        "name": "First Samurai Waistguard",
+        "type": "Armor - Leg Guards"
+    },
+    "00E2": {
+        "name": "Taira no Kagekiyo's Helmet",
+        "type": "Armor - Head Armor"
+    },
+    "81E3": {
+        "name": "Million Demon Waistguard",
+        "type": "Armor - Leg Guards"
+    },
+    "3E45": {
+        "name": "Unnamed Item",
+        "type": "Armor - Arm Guards"
+    },
+    "50E3": {
+        "name": "Unnamed Item",
+        "type": "Armor - Leg Guards"
+    },
+    "0865": {
+        "name": "Unnamed Item",
+        "type": "Armor - Arm Guards"
+    },
+    "0539": {
+        "name": "Unnamed Item",
+        "type": "Armor - Foot Guards"
+    },
+    "3E12": {
+        "name": "Unnamed Item",
+        "type": "Armor - Foot Guards"
+    },
+    "15E0": {
+        "name": "Unnamed Item",
+        "type": "Armor - Arm Guards"
+    },
+    "0455": {
+        "name": "Unnamed Item",
+        "type": "Armor - Head Armor"
+    },
+    "0337": {
+        "name": "Unnamed Item",
+        "type": "Armor - Foot Guards"
+    },
+    "0266": {
+        "name": "Enenra Mask",
+        "type": "Armor - Head Armor"
+    },
+    "0833": {
+        "name": "Black Goose Helmet",
+        "type": "Armor - Head Armor"
+    },
+    "17E2": {
+        "name": "Fan-Crested Helmet",
+        "type": "Armor - Head Armor"
+    },
+    "63E7": {
+        "name": "Mountain Ridge Helmet",
+        "type": "Armor - Head Armor"
+    },
+    "04E3": {
+        "name": "Pipe",
+        "type": "Accessory"
+    },
+    "0545": {
+        "name": "Sacred Ash",
+        "type": "Usable Items"
+    },
+    "97E0": {
+        "name": "Large Spirit Stone",
+        "type": "Usable Items"
+    },
+    "0939": {
+        "name": "Unnamed Item",
+        "type": "Usable Items"
+    },
+    "80E1": {
+        "name": "Kunai",
+        "type": "Usable Items"
+    },
+    "9E75": {
+        "name": "Stun Arrow Tincture",
+        "type": "Usable Items"
+    },
+    "56E5": {
+        "name": "Pleiades Talisman",
+        "type": "Usable Items"
+    },
+    "89E7": {
+        "name": "Sloth Talisman",
+        "type": "Usable Items"
+    },
+    "0681": {
+        "name": "Devigorate Talisman",
+        "type": "Usable Items"
+    },
+    "2E11": {
+        "name": "Unnamed Item",
+        "type": "Usable Items"
+    },
+    "86E5": {
+        "name": "Nue's Claw",
+        "type": "Smithing Materials"
+    },
+    "0813": {
+        "name": "Enki Pelt",
+        "type": "Smithing Materials"
+    },
+    "82E2": {
+        "name": "Ranjatai Fragment",
+        "type": "Key Items"
+    },
+    "79E7": {
+        "name": "Tattered Note",
+        "type": "Key Items"
+    },
+    "54E5": {
+        "name": "Large Baby Stone",
+        "type": "Key Items"
+    },
+    "91E9": {
+        "name": "Grand Master's Brush I",
+        "type": "Key Items"
+    },
+    "0782": {
+        "name": "Summoners Candle",
+        "type": "Usable Items"
+    },
+    "0529": {
+        "name": "Divine Rice",
+        "type": "Key Items"
+    },
+    "41E1": {
+        "name": "The Art of Combat: Roar Power",
+        "type": "Key Items"
+    },
+    "4E70": {
+        "name": "The Art of Combat: Luminous Blade Talisman",
+        "type": "Key Items"
+    },
+    "8E30": {
+        "name": "Smithing Text: Kintaro's Axe",
+        "type": "Key Items"
+    },
+    "0951": {
+        "name": "Smithing Text: Mud Jar",
+        "type": "Key Items"
+    },
+    "0993": {
+        "name": "Smithing Text: Yin-Yang Tonfa",
+        "type": "Key Items"
+    },
+    "8E75": {
+        "name": "Smithing Text: Great Chidori Cross Spear",
+        "type": "Key Items"
+    },
+    "0727": {
+        "name": "Smithing Text: Tanuki Helmet",
+        "type": "Key Items"
+    },
+    "0498": {
+        "name": "Smithing Text: Sasayuki",
+        "type": "Key Items"
+    },
+    "74E8": {
+        "name": "Smithing Text: Transient Blade",
+        "type": "Key Items"
+    },
+    "5E43": {
+        "name": "Smithing Text: Onmyo Warrior's Armor",
+        "type": "Key Items"
+    },
+    "6E73": {
+        "name": "Smithing Text: Genmei Onmyo Mage Attire",
+        "type": "Key Items"
+    },
+    "1E72": {
+        "name": "Smithing Text: Ningen Mukotsu",
+        "type": "Key Items"
+    },
+    "09E6": {
+        "name": "Smithing Text: Double-headed Snake Tonfa",
+        "type": "Key Items"
+    },
+    "2E86": {
+        "name": "Smithing Text: Sohaya Armor",
+        "type": "Key Items"
+    },
+    "1E32": {
+        "name": "Smithing Text: Braided Straw Helmet",
+        "type": "Key Items"
+    },
+    "81E7": {
+        "name": "Smithing Text: Sun and Moon Hatchets",
+        "type": "Key Items"
+    },
+    "0809": {
+        "name": "Smithing Text: Taira no Kagekiyo's Armor",
+        "type": "Key Items"
+    },
+    "4E14": {
+        "name": "Smithing Text: Training Robe",
+        "type": "Key Items"
+    },
+    "20E8": {
+        "name": "Seto Taisho",
+        "type": "Soul Core"
+    },
+    "0532": {
+        "name": "Fuki Soul Core",
+        "type": "Soul Core"
+    },
+    "71E9": {
+        "name": "Hakeme",
+        "type": "Tea Set"
+    },
+    "2E83": {
+        "name": "Seto Katatsuki [White]",
+        "type": "Tea Set"
+    },
+    "0677": {
+        "name": "Seto Hyotan [Yellow]",
+        "type": "Tea Set"
     }
 }

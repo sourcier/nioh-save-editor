@@ -14,13 +14,18 @@ export const MAGIC = 0x1c4924
 // ── Proficiency offsets ────────────────────────────────────────────────────────
 export const NINJITSU = 0x1c4b58
 export const ONMYO = 0x1c4b64
+export const SOUL_FRAGMENTS = 0x1c4b70
 export const SWORD = 0x1c4a8c
 export const DUAL_SWORD = 0x1c4a98
+export const SPEAR = 0x1c4aa4
 export const AXE = 0x1c4ab0
 export const KUSARIGAMA = 0x1c4abc
 export const ODACHI = 0x1c4ac8
 export const TONFA = 0x1c4ad4
 export const HATCHET = 0x1c4ae0
+export const SWITCHGLAIVE = 0x1c4aec
+export const SPLITSTAFF = 0x1c4af8
+export const FIST = 0x1c4b04
 
 // ── Inventory offsets ──────────────────────────────────────────────────────────
 export const WEAPON_START = 0xed508

@@ -28,6 +28,9 @@
   --color-background-soft: var(--ev-c-black-soft);
   --color-background-mute: var(--ev-c-black-mute);
 
+  --color-border: #3a3a3f;
+  --color-input-bg: #2a2a2f;
+
   --color-text: var(--ev-c-text-1);
 }
 

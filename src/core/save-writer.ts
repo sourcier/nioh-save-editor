@@ -6,6 +6,7 @@ import {
   COURAGE,
   DEXTERITY,
   DUAL_SWORD,
+  FIST,
   GOLD_OFFSET,
   HATCHET,
   HEART,
@@ -14,15 +15,19 @@ import {
   KUSARIGAMA,
   MAGIC,
   NINJITSU,
+  SOUL_FRAGMENTS,
   ODACHI,
   ONMYO,
   PLAYER_LEVEL,
   SCROLL_SIZE,
   SCROLL_START,
   SKILL,
+  SPEAR,
+  SPLITSTAFF,
   STAMINA,
   STRENGTH,
   SWORD,
+  SWITCHGLAIVE,
   TONFA,
   WEAPON_SIZE,
   WEAPON_START
@@ -43,13 +48,18 @@ export function writeStats(buf: Buffer, stats: CharacterStats): void {
   writeLE(buf, MAGIC, stats.magic, 4)
   writeLE(buf, NINJITSU, stats.ninjitsu, 4)
   writeLE(buf, ONMYO, stats.onmyo, 4)
+  writeLE(buf, SOUL_FRAGMENTS, stats.soulFragments, 4)
   writeLE(buf, SWORD, stats.sword, 4)
   writeLE(buf, DUAL_SWORD, stats.dualSword, 4)
+  writeLE(buf, SPEAR, stats.spear, 4)
   writeLE(buf, AXE, stats.axe, 4)
   writeLE(buf, KUSARIGAMA, stats.kusarigama, 4)
   writeLE(buf, ODACHI, stats.odachi, 4)
   writeLE(buf, TONFA, stats.tonfa, 4)
   writeLE(buf, HATCHET, stats.hatchet, 4)
+  writeLE(buf, SWITCHGLAIVE, stats.switchglaive, 4)
+  writeLE(buf, SPLITSTAFF, stats.splitstaff, 4)
+  writeLE(buf, FIST, stats.fist, 4)
 }
 
 export function writeWeapons(buf: Buffer, weapons: Weapon[]): void {

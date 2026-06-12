@@ -11818,5 +11818,413 @@
         "CAP": "(Set Bonus)",
         "rarity": "Divine",
         "id": "FC6E"
+    },
+    {
+        "Effect": "Strong Attack Ki Consumption",
+        "CAP": "-0.07",
+        "rarity": "Common",
+        "id": "E193"
+    },
+    {
+        "Effect": "Defense",
+        "CAP": "5",
+        "rarity": "Uncommon",
+        "id": "0400"
+    },
+    {
+        "Effect": "Onmyo Magic Power",
+        "CAP": "7",
+        "rarity": "Uncommon",
+        "id": "E580"
+    },
+    {
+        "Effect": "Guard Ki Consumption",
+        "CAP": "-0.075",
+        "rarity": "Common",
+        "id": "E613"
+    },
+    {
+        "Effect": "Equipment Drop Rate vs. Yokai",
+        "CAP": "0.017",
+        "rarity": "Common",
+        "id": "E401"
+    },
+    {
+        "Effect": "li, the Red Demon",
+        "CAP": "(Set Bonus)",
+        "rarity": "Divine",
+        "id": "E437"
+    },
+    {
+        "Effect": "Kintaro",
+        "CAP": "(Set Bonus)",
+        "rarity": "Divine",
+        "id": "E460"
+    },
+    {
+        "Effect": "Okuninushi's Grace",
+        "CAP": "(Set Bonus)",
+        "rarity": "Ethereal",
+        "id": "E121"
+    },
+    {
+        "Effect": "Rifle Damage",
+        "CAP": "0.06",
+        "rarity": "Common",
+        "id": "E854"
+    },
+    {
+        "Effect": "Extended Elemental Weapon",
+        "CAP": "0.3",
+        "rarity": "Common",
+        "id": "446E"
+    },
+    {
+        "Effect": "Damage Bonus (Unarmored)",
+        "CAP": "A+",
+        "rarity": "Uncommon",
+        "id": "808E"
+    },
+    {
+        "Effect": "Soul Matching Cost",
+        "CAP": "-0.7",
+        "rarity": "Exotic",
+        "id": "344E"
+    },
+    {
+        "Effect": "Bow Damage (Close Range)",
+        "CAP": "0.165",
+        "rarity": "Uncommon",
+        "id": "197E"
+    },
+    {
+        "Effect": "Throwing Speed Up (Shrapnel Bomb)",
+        "CAP": "(Passive)",
+        "rarity": "Uncommon",
+        "id": "016E"
+    },
+    {
+        "Effect": "Never WInded",
+        "CAP": "0.35",
+        "rarity": "Exotic",
+        "id": "752E"
+    },
+    {
+        "Effect": "Pleiades (Surrounded)",
+        "CAP": "(Passive)",
+        "rarity": "Uncommon",
+        "id": "009E"
+    },
+    {
+        "Effect": "Faster Movement (Amrita Absorption)",
+        "CAP": "(Passive)",
+        "rarity": "Uncommon",
+        "id": "E197"
+    },
+    {
+        "Effect": "Groundquake Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "E731"
+    },
+    {
+        "Effect": "Tangle Strike Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "158E"
+    },
+    {
+        "Effect": "Pulverize: Heaven Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "434E"
+    },
+    {
+        "Effect": "Celestial Retribution Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "E116"
+    },
+    {
+        "Effect": "Changing Ways Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "018E"
+    },
+    {
+        "Effect": "Charging Bull Ki Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "952E"
+    },
+    {
+        "Effect": "High Kick Ki Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "0BF"
+    },
+    {
+        "Effect": "Thunderbolt Ki Damage",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "465E"
+    },
+    {
+        "Effect": "Rakshasa Duration",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "664E"
+    },
+    {
+        "Effect": "Blue Moon Duration",
+        "CAP": "0.1",
+        "rarity": "Common",
+        "id": "963E"
+    },
+    {
+        "Effect": "Rifle Ki Damage",
+        "CAP": "0.04",
+        "rarity": "Common",
+        "id": "E632"
+    },
+    {
+        "Effect": "Increased Attack & Defense (Odachi)",
+        "CAP": "2",
+        "rarity": "Common",
+        "id": "929E"
+    },
+    {
+        "Effect": "Attack Bonus (Courage)",
+        "CAP": "AA",
+        "rarity": "Exotic",
+        "id": "466E"
+    },
+    {
+        "Effect": "Damage Bonus (Equipment Weight)",
+        "CAP": "AAA-",
+        "rarity": "Exotic",
+        "id": "957E"
+    },
+    {
+        "Effect": "Heal Allies (Purification)",
+        "CAP": "162",
+        "rarity": "Divine",
+        "id": "E441"
+    },
+    {
+        "Effect": "Increased Defense (Dodge Attack)",
+        "CAP": "(Passive)",
+        "rarity": "Divine",
+        "id": "057E"
+    },
+    {
+        "Effect": "Tonfa Gun",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "E836"
+    },
+    {
+        "Effect": "Auto-Life Recovery (Winded Enemy)",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "787E"
+    },
+    {
+        "Effect": "Auto-Life Recovery (Strong Backstab)",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "260E"
+    },
+    {
+        "Effect": "Blindness (Onmyo Magic Hit)",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "884E"
+    },
+    {
+        "Effect": "Faster Ki Recovery (Onmyo Magic Used)",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "736E"
+    },
+    {
+        "Effect": "Increased Attack (Ninjutsu Used)",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "987E"
+    },
+    {
+        "Effect": "Pleiades (Bare-Handed Attack)",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "387E"
+    },
+    {
+        "Effect": "Untouched Sticky Pot",
+        "CAP": "0.217",
+        "rarity": "Exotic",
+        "id": "E241"
+    },
+    {
+        "Effect": "Bullet & Arrow Damage (Unscathed)",
+        "CAP": "0.1",
+        "rarity": "Exotic",
+        "id": "193E"
+    },
+    {
+        "Effect": "Ki Pulse Bonus",
+        "CAP": "60",
+        "rarity": "Exotic",
+        "id": "938E"
+    },
+    {
+        "Effect": "Damage Taken (Mid-Attack)",
+        "CAP": "-0.055",
+        "rarity": "Exotic",
+        "id": "E617"
+    },
+    {
+        "Effect": "Anima Charge (Critical)",
+        "CAP": "0.12",
+        "rarity": "Common",
+        "id": "978E"
+    },
+    {
+        "Effect": "Anima Bonus (Damage Taken)",
+        "CAP": "C",
+        "rarity": "Common",
+        "id": "E879"
+    },
+    {
+        "Effect": "Dodge Ki Consumption (Critical)",
+        "CAP": "-0.033",
+        "rarity": "Common",
+        "id": "E957"
+    },
+    {
+        "Effect": "Melee Damage vs. Humans",
+        "CAP": "0.044",
+        "rarity": "Common",
+        "id": "958E"
+    },
+    {
+        "Effect": "Bow Damage (Close Range)",
+        "CAP": "0.066",
+        "rarity": "Common",
+        "id": "E066"
+    },
+    {
+        "Effect": "Strong Attack Ki Consumption",
+        "CAP": "-0.033",
+        "rarity": "Common",
+        "id": "E927"
+    },
+    {
+        "Effect": "Onmyo Magic Bonus (Amrita Gauge)",
+        "CAP": "D+",
+        "rarity": "Rare",
+        "id": "272E"
+    },
+    {
+        "Effect": "Saruyasha's Valour",
+        "CAP": "(Set Bonus)",
+        "rarity": "Divine",
+        "id": "E433"
+    },
+    {
+        "Effect": "Appetite for Ascension",
+        "CAP": "(Set Bonus)",
+        "rarity": "Divine",
+        "id": "E587"
+    },
+    {
+        "Effect": "Extended Yokai Shift",
+        "CAP": "0.08",
+        "rarity": "Uncommon",
+        "id": "E349"
+    },
+    {
+        "Effect": "Extended Dodge Invulnerability",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "612E"
+    },
+    {
+        "Effect": "The Protection of Kannon",
+        "CAP": "(Set Bonus)",
+        "rarity": "Divine",
+        "id": "E497"
+    },
+    {
+        "Effect": "Ominous Pact",
+        "CAP": "(Passive)",
+        "rarity": "Exotic",
+        "id": "E878"
+    },
+    {
+        "Effect": "Grapple Damage",
+        "CAP": "0.2",
+        "rarity": "Uncommon",
+        "id": "E294"
+    },
+    {
+        "Effect": "Auto-Target Weak Point",
+        "CAP": "(Passive)",
+        "rarity": "DIvine",
+        "id": "E689"
+    },
+    {
+        "Effect": "Guard Ki Consumption",
+        "CAP": "-0.08",
+        "rarity": "Rare",
+        "id": "6200"
+    },
+    {
+        "Effect": "Guardian Spirit Skill Damage",
+        "CAP": "0.2",
+        "rarity": "Exotic",
+        "id": "519E"
+    },
+    {
+        "Effect": "Lucky Drop (Equipped Armor)",
+        "CAP": "(Passive)",
+        "rarity": "Divine",
+        "id": "E216"
+    },
+    {
+        "Effect": "Untouched Tengu's Fan",
+        "CAP": "0.483",
+        "rarity": "Common",
+        "id": "E273"
+    },
+    {
+        "Effect": "Melee Damage vs. Saturated Enemy",
+        "CAP": "0.01",
+        "rarity": "Common",
+        "id": "424E"
+    },
+    {
+        "Effect": "Amrita Bonus (Inflict Scorched)",
+        "CAP": "D+",
+        "rarity": "Exotic",
+        "id": "E396"
+    },
+    {
+        "Effect": "Amrita Bonus (Inflict Saturated)",
+        "CAP": "D+",
+        "rarity": "Exotic",
+        "id": "E549"
+    },
+    {
+        "Effect": "Melee Damage",
+        "CAP": "0.07",
+        "rarity": "Uncommon",
+        "id": "509E"
+    },
+    {
+        "Effect": "Bow Damage",
+        "CAP": "0.08",
+        "rarity": "Common",
+        "id": "98A6"
     }
 ]

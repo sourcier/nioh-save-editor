@@ -67,6 +67,45 @@ src/data/          items.json + effects.json
 tools/             Place ps4.exe here (PS4-encrypted saves only)
 ```
 
+## Troubleshooting
+
+### `Error: Electron uninstall` on `pnpm dev` (Node.js 24)
+
+`electron@39.x` depends on `@electron/get@2.x`, whose postinstall script silently fails to extract the Electron binary under Node.js 24. The zip is downloaded to the local cache but never extracted.
+
+**Permanent fix — use Node.js 22 LTS (recommended):**
+
+Node.js 24 broke the postinstall extraction step. Node.js 22 LTS does not have this issue and is the current LTS release.
+
+```bash
+# With scoop
+scoop install nodejs-lts   # installs Node 22 LTS
+# or switch if you have multiple versions installed via scoop
+```
+
+**Workaround — manually extract the cached binary (Node.js 24):**
+
+If you want to stay on Node.js 24, extract the binary from pnpm's local Electron cache after running `pnpm install`:
+
+```powershell
+# 1. Find the cached zip
+$zip = Get-ChildItem "$env:LOCALAPPDATA\electron\Cache" -Recurse -File |
+       Where-Object { $_.Name -like "electron-v*-win32-x64.zip" } |
+       Select-Object -First 1 -ExpandProperty FullName
+
+# 2. Extract it into the electron package dist folder
+$dist = Resolve-Path "node_modules\electron\dist"
+Expand-Archive -Path $zip -DestinationPath $dist -Force
+
+# 3. Write the marker files
+[System.IO.File]::WriteAllText("$dist\..\path.txt", "electron.exe")
+[System.IO.File]::WriteAllText("$dist\version", "v39.2.6")
+```
+
+You will need to repeat this after every `pnpm install` that updates the `electron` package.
+
+---
+
 ## Credits
 
 - Original Python editor: [alfizari/Nioh-2-Save-Editor](https://github.com/alfizari/Nioh-2-Save-Editor)

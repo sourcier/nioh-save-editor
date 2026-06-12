@@ -6,6 +6,7 @@ import {
   COURAGE,
   DEXTERITY,
   DUAL_SWORD,
+  FIST,
   GOLD_OFFSET,
   HATCHET,
   HEART,
@@ -15,6 +16,7 @@ import {
   KUSARIGAMA,
   MAGIC,
   NINJITSU,
+  SOUL_FRAGMENTS,
   ODACHI,
   ONMYO,
   PLAYER_LEVEL,
@@ -22,9 +24,12 @@ import {
   SCROLL_SLOTS,
   SCROLL_START,
   SKILL,
+  SPEAR,
+  SPLITSTAFF,
   STAMINA,
   STRENGTH,
   SWORD,
+  SWITCHGLAIVE,
   TONFA,
   WEAPON_SIZE,
   WEAPON_SLOTS,
@@ -47,13 +52,18 @@ export function parseStats(buf: Buffer): CharacterStats {
     magic: readLE(buf, MAGIC, 4),
     ninjitsu: readLE(buf, NINJITSU, 4),
     onmyo: readLE(buf, ONMYO, 4),
+    soulFragments: readLE(buf, SOUL_FRAGMENTS, 4),
     sword: readLE(buf, SWORD, 4),
     dualSword: readLE(buf, DUAL_SWORD, 4),
+    spear: readLE(buf, SPEAR, 4),
     axe: readLE(buf, AXE, 4),
     kusarigama: readLE(buf, KUSARIGAMA, 4),
     odachi: readLE(buf, ODACHI, 4),
     tonfa: readLE(buf, TONFA, 4),
-    hatchet: readLE(buf, HATCHET, 4)
+    hatchet: readLE(buf, HATCHET, 4),
+    switchglaive: readLE(buf, SWITCHGLAIVE, 4),
+    splitstaff: readLE(buf, SPLITSTAFF, 4),
+    fist: readLE(buf, FIST, 4)
   }
 }
 

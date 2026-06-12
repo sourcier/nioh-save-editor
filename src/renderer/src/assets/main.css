@@ -1,5 +1,32 @@
 @import './base.css';
 
+/* ── Scrollbars ── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #404048;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #56565f;
+  background-clip: content-box;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /* ── Layout ── */
 body {
   margin: 0;
@@ -102,6 +129,7 @@ body {
 /* ── Tab content ── */
 .tab-main {
   flex: 1;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -109,9 +137,10 @@ body {
 
 .tab-content {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
   padding: 0;
 }
 
@@ -151,7 +180,7 @@ body {
   padding: 4px 8px;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  background: var(--color-background);
+  background: var(--color-input-bg);
   color: var(--color-text);
   font-size: 13px;
 }
@@ -243,14 +272,28 @@ button.danger:hover:not(:disabled) {
 
 /* ── Stats tab ── */
 .stats-tab {
-  overflow: auto;
   padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 6px;
+.stat-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-group-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted, #888);
+  margin: 0 0 4px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .stat-row {
@@ -270,9 +313,15 @@ button.danger:hover:not(:disabled) {
   padding: 4px 8px;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  background: var(--color-background);
+  background: var(--color-input-bg);
   color: var(--color-text);
   font-size: 13px;
+  -moz-appearance: textfield;
+}
+
+.stat-row input::-webkit-outer-spin-button,
+.stat-row input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 /* ── Editor panel ── */
@@ -340,7 +389,7 @@ button.danger:hover:not(:disabled) {
   padding: 4px 8px;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  background: var(--color-background);
+  background: var(--color-input-bg);
   color: var(--color-text);
   font-size: 13px;
 }
@@ -369,7 +418,7 @@ button.danger:hover:not(:disabled) {
   padding: 4px 6px;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  background: var(--color-background);
+  background: var(--color-input-bg);
   color: var(--color-text);
   font-size: 13px;
   flex-shrink: 0;
@@ -386,7 +435,7 @@ button.danger:hover:not(:disabled) {
   padding: 4px 8px;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  background: var(--color-background);
+  background: var(--color-input-bg);
   color: var(--color-text);
   font-size: 13px;
 }
