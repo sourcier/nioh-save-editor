@@ -392,6 +392,13 @@ button.danger:hover:not(:disabled) {
   background: var(--color-input-bg);
   color: var(--color-text);
   font-size: 13px;
+  -moz-appearance: textfield;
+}
+
+.field-row input[type='number']::-webkit-inner-spin-button,
+.field-row input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* ── Effect rows ── */
@@ -422,6 +429,13 @@ button.danger:hover:not(:disabled) {
   color: var(--color-text);
   font-size: 13px;
   flex-shrink: 0;
+  -moz-appearance: textfield;
+}
+
+.effect-mag::-webkit-inner-spin-button,
+.effect-mag::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* ── Searchable select ── */

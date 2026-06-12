@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import type { CharacterStats } from '../../../core/types'
 
 interface Props {
@@ -61,7 +61,14 @@ const STAT_GROUPS: StatGroup[] = [
 ]
 
 export function StatsTab({ stats, onChange }: Props): React.JSX.Element {
+  const [drafts, setDrafts] = useState<Partial<Record<keyof CharacterStats, string>>>({})
+
   function handleChange(key: keyof CharacterStats, raw: string): void {
+    setDrafts((d) => ({ ...d, [key]: raw }))
+  }
+
+  function commitField(key: keyof CharacterStats, raw: string): void {
+    setDrafts((d) => { const n = { ...d }; delete n[key]; return n })
     const value = parseInt(raw, 10)
     if (!isNaN(value)) onChange({ ...stats, [key]: value })
   }
@@ -76,9 +83,11 @@ export function StatsTab({ stats, onChange }: Props): React.JSX.Element {
               <label htmlFor={`stat-${key}`}>{label}</label>
               <input
                 id={`stat-${key}`}
-                type="number"
-                value={stats[key]}
+                type="text"
+                inputMode="numeric"
+                value={drafts[key] ?? String(stats[key])}
                 onChange={(e) => handleChange(key, e.target.value)}
+                onBlur={(e) => commitField(key, e.target.value)}
               />
             </div>
           ))}

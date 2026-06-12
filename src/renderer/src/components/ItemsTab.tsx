@@ -123,11 +123,17 @@ interface EditorProps {
 
 function ItemEditor({ item, itemsJson, onSave, onBack }: EditorProps): React.JSX.Element {
   const [local, setLocal] = useState<Item>({ ...item })
+  const [drafts, setDrafts] = useState<Partial<Record<keyof Item, string>>>({})
 
   const hex = swapEndianHex(local.itemId)
   const name = itemsJson[hex]?.name ?? 'Unknown'
 
   function setField(key: keyof Item, raw: string): void {
+    setDrafts((d) => ({ ...d, [key]: raw }))
+  }
+
+  function commitField(key: keyof Item, raw: string): void {
+    setDrafts((d) => { const n = { ...d }; delete n[key]; return n })
     const value = parseInt(raw, 10)
     if (!isNaN(value)) setLocal((prev) => ({ ...prev, [key]: value }))
   }
@@ -151,9 +157,11 @@ function ItemEditor({ item, itemsJson, onSave, onBack }: EditorProps): React.JSX
               <div className="field-row" key={key}>
                 <label>{label}</label>
                 <input
-                  type="number"
-                  value={local[key]}
+                  type="text"
+                  inputMode="numeric"
+                  value={drafts[key] ?? String(local[key])}
                   onChange={(e) => setField(key, e.target.value)}
+                  onBlur={(e) => commitField(key, e.target.value)}
                 />
               </div>
             )

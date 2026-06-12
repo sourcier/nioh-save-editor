@@ -132,19 +132,31 @@ const EFFECT_COUNT = 7
 
 function WeaponEditor({ weapon, itemsJson, effectsList, onSave, onBack }: EditorProps): React.JSX.Element {
   const [local, setLocal] = useState<Weapon>({ ...weapon, effects: weapon.effects.map((e) => ({ ...e })) })
+  const [fieldDrafts, setFieldDrafts] = useState<Partial<Record<keyof Weapon, string>>>({})
+  const [magDrafts, setMagDrafts] = useState<Partial<Record<number, string>>>({})
 
   function setField(key: keyof Weapon, raw: string): void {
+    setFieldDrafts((d) => ({ ...d, [key]: raw }))
+  }
+
+  function commitField(key: keyof Weapon, raw: string): void {
+    setFieldDrafts((d) => { const n = { ...d }; delete n[key]; return n })
     const value = parseInt(raw, 10)
     if (!isNaN(value)) setLocal((prev) => ({ ...prev, [key]: value }))
   }
 
-  function setEffect(index: number, field: keyof Effect, raw: string): void {
+  function setEffect(index: number, raw: string): void {
+    setMagDrafts((d) => ({ ...d, [index]: raw }))
+  }
+
+  function commitEffect(index: number, raw: string): void {
+    setMagDrafts((d) => { const n = { ...d }; delete n[index]; return n })
     const value = parseInt(raw, 10)
     if (isNaN(value)) return
-    setLocal((prev) => {
-      const effects = prev.effects.map((e, i) => (i === index ? { ...e, [field]: value } : e))
-      return { ...prev, effects }
-    })
+    setLocal((prev) => ({
+      ...prev,
+      effects: prev.effects.map((e, i) => (i === index ? { ...e, magnitude: value } : e))
+    }))
   }
 
   function setEffectFromDropdown(index: number, chosen: string): void {
@@ -201,9 +213,11 @@ function WeaponEditor({ weapon, itemsJson, effectsList, onSave, onBack }: Editor
             <div className="field-row" key={key}>
               <label>{label}</label>
               <input
-                type="number"
-                value={String(local[key])}
+                type="text"
+                inputMode="numeric"
+                value={fieldDrafts[key] ?? String(local[key])}
                 onChange={(e) => setField(key, e.target.value)}
+                onBlur={(e) => commitField(key, e.target.value)}
               />
             </div>
           ))}
@@ -223,9 +237,11 @@ function WeaponEditor({ weapon, itemsJson, effectsList, onSave, onBack }: Editor
               />
               <label>Mag</label>
               <input
-                type="number"
-                value={effect.magnitude}
-                onChange={(e) => setEffect(i, 'magnitude', e.target.value)}
+                type="text"
+                inputMode="numeric"
+                value={magDrafts[i] ?? String(effect.magnitude)}
+                onChange={(e) => setEffect(i, e.target.value)}
+                onBlur={(e) => commitEffect(i, e.target.value)}
                 className="effect-mag"
               />
             </div>

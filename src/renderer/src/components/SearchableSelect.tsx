@@ -13,14 +13,19 @@ export function SearchableSelect({ options, value, onChange, placeholder, classN
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState(value)
   const containerRef = useRef<HTMLDivElement>(null)
+  const committed = useRef(value)
 
-  useEffect(() => setQuery(value), [value])
+  useEffect(() => {
+    setQuery(value)
+    committed.current = value
+  }, [value])
 
   const filtered = query
     ? options.filter((o) => o.toLowerCase().includes(query.toLowerCase()))
     : options
 
   function handleSelect(opt: string): void {
+    committed.current = opt
     setQuery(opt)
     onChange(opt)
     setOpen(false)
@@ -29,6 +34,7 @@ export function SearchableSelect({ options, value, onChange, placeholder, classN
   useEffect(() => {
     function onClickOutside(e: MouseEvent): void {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setQuery(committed.current)
         setOpen(false)
       }
     }
@@ -46,7 +52,10 @@ export function SearchableSelect({ options, value, onChange, placeholder, classN
           setQuery(e.target.value)
           setOpen(true)
         }}
-        onFocus={() => setOpen(true)}
+        onFocus={() => {
+          setQuery('')
+          setOpen(true)
+        }}
       />
       {open && filtered.length > 0 && (
         <ul className="searchable-select__dropdown">
