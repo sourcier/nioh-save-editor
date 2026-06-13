@@ -28,6 +28,7 @@ function App(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<Tab>('stats')
   const [status, setStatus] = useState<string>('No save file loaded.')
   const [busy, setBusy] = useState(false)
+  const [loadCount, setLoadCount] = useState(0)
 
   async function openFile(): Promise<void> {
     setBusy(true)
@@ -49,6 +50,7 @@ function App(): React.JSX.Element {
         items: result.items,
         scrolls: result.scrolls
       })
+      setLoadCount((c) => c + 1)
 
       const weaponCount = result.weapons.filter((w) => w.itemId !== 0).length
       const itemCount = result.items.filter((i) => i.itemId !== 0).length
@@ -104,6 +106,7 @@ function App(): React.JSX.Element {
         items: result.items,
         scrolls: result.scrolls
       } : null)
+      setLoadCount((c) => c + 1)
       setStatus('Character imported. Load in-game to apply.')
     } finally {
       setBusy(false)
@@ -160,6 +163,7 @@ function App(): React.JSX.Element {
             )}
             {activeTab === 'weapons' && (
               <WeaponsTab
+                key={loadCount}
                 weapons={appState.weapons}
                 itemsJson={itemsJson}
                 effectsList={effectsList}
@@ -168,6 +172,7 @@ function App(): React.JSX.Element {
             )}
             {activeTab === 'items' && (
               <ItemsTab
+                key={loadCount}
                 items={appState.items}
                 itemsJson={itemsJson}
                 onChange={(items) => setAppState((prev) => prev ? { ...prev, items } : null)}
