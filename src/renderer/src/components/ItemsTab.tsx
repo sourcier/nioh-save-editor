@@ -1,7 +1,8 @@
 import React from 'react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { Item } from '../../../core/types'
 import { swapEndianHex } from '../../../core/binary-utils'
+import { SearchableSelect } from './SearchableSelect'
 
 interface Props {
   items: Item[]
@@ -14,6 +15,7 @@ export function ItemsTab({ items, itemsJson, onChange }: Props): React.JSX.Eleme
   const [typeFilter, setTypeFilter] = useState('')
   const [selected, setSelected] = useState<Set<number>>(new Set())
   const [editing, setEditing] = useState<number | null>(null)
+  const [adding, setAdding] = useState(false)
 
   const active = items.filter((i) => i.itemId !== 0)
   const types = [...new Set(active.map((i) => itemsJson[swapEndianHex(i.itemId)]?.type ?? '').filter(Boolean))].sort()
@@ -40,6 +42,11 @@ export function ItemsTab({ items, itemsJson, onChange }: Props): React.JSX.Eleme
     onChange(items.map((i) => (selected.has(i.slot) ? { ...i, quantity: 999 } : i)))
   }
 
+  function addItem(item: Item): void {
+    onChange(items.map((i) => (i.slot === item.slot ? item : i)))
+    setAdding(false)
+  }
+
   const allFilteredSelected = filtered.length > 0 && filtered.every((i) => selected.has(i.slot))
 
   function toggleSelectAll(): void {
@@ -56,6 +63,18 @@ export function ItemsTab({ items, itemsJson, onChange }: Props): React.JSX.Eleme
         return next
       })
     }
+  }
+
+  if (adding) {
+    const freeSlot = items.find((i) => i.itemId === 0)
+    return (
+      <AddItemPanel
+        freeSlot={freeSlot ?? null}
+        itemsJson={itemsJson}
+        onAdd={addItem}
+        onBack={() => setAdding(false)}
+      />
+    )
   }
 
   if (editing !== null) {
@@ -94,6 +113,7 @@ export function ItemsTab({ items, itemsJson, onChange }: Props): React.JSX.Eleme
         </button>
         <span className="count">{selected.size > 0 ? `${selected.size} selected / ` : ''}{filtered.length} items</span>
         <button onClick={maxSelected} disabled={selected.size === 0}>Max Out Selected</button>
+        <button onClick={() => setAdding(true)}>Add Item</button>
       </div>
       <div className="table-container">
         <table>
@@ -204,6 +224,74 @@ function ItemEditor({ item, itemsJson, onSave, onBack }: EditorProps): React.JSX
               </div>
             )
           )}
+        </section>
+      </div>
+    </div>
+  )
+}
+
+interface AddItemPanelProps {
+  freeSlot: Item | null
+  itemsJson: Record<string, { name: string; type: string }>
+  onAdd: (item: Item) => void
+  onBack: () => void
+}
+
+function AddItemPanel({ freeSlot, itemsJson, onAdd, onBack }: AddItemPanelProps): React.JSX.Element {
+  const [selectedLabel, setSelectedLabel] = useState('')
+  const [quantity, setQuantity] = useState(1)
+
+  const optionMap = useMemo(() => {
+    const m = new Map<string, string>()
+    for (const [hex, { name, type }] of Object.entries(itemsJson)) {
+      m.set(`${name} [${type}] (${hex})`, hex)
+    }
+    return m
+  }, [itemsJson])
+
+  const options = useMemo(() => [...optionMap.keys()].sort(), [optionMap])
+
+  function handleAdd(): void {
+    const hex = optionMap.get(selectedLabel)
+    if (!hex || !freeSlot) return
+    const swapped = parseInt(hex, 16)
+    const itemId = ((swapped & 0xff) << 8) | (swapped >> 8)
+    onAdd({ ...freeSlot, itemId, quantity, refashion: 0 })
+  }
+
+  const canAdd = !!freeSlot && optionMap.has(selectedLabel)
+
+  return (
+    <div className="tab-content editor-panel">
+      <div className="editor-header">
+        <button onClick={onBack}>← Back</button>
+        <h2>Add Item</h2>
+        <button className="primary" onClick={handleAdd} disabled={!canAdd}>
+          Add Item
+        </button>
+      </div>
+      {!freeSlot && <p className="error">No free item slots available.</p>}
+      <div className="editor-body">
+        <section className="editor-section">
+          <div className="field-row">
+            <label>Item</label>
+            <SearchableSelect
+              options={options}
+              value={selectedLabel}
+              onChange={setSelectedLabel}
+              placeholder="Search for an item…"
+            />
+          </div>
+          <div className="field-row">
+            <label>Quantity</label>
+            <input
+              type="number"
+              min={1}
+              max={999}
+              value={quantity}
+              onChange={(e) => setQuantity(Math.max(1, Math.min(999, parseInt(e.target.value, 10) || 1)))}
+            />
+          </div>
         </section>
       </div>
     </div>
