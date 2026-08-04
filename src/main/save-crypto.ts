@@ -1,11 +1,30 @@
 import { existsSync } from 'fs'
 import { join } from 'path'
-import { execFile } from 'child_process'
+import { execFile, spawn } from 'child_process'
 import { promisify } from 'util'
 import type { SaveMode } from '../core/types'
 import { niohCrypt, isDecrypted } from './nioh-crypto'
 
 const execFileAsync = promisify(execFile)
+
+/**
+ * Run an interactive CLI tool that prints "Press Enter To Exit…" and waits for
+ * stdin.  We spawn it with a piped stdin and immediately write \n so it exits
+ * cleanly instead of hanging forever.
+ */
+function runInteractiveExe(exe: string, args: string[], cwd: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(exe, args, { cwd, stdio: ['pipe', 'pipe', 'pipe'] })
+    // Dismiss the "Press Enter To Exit..." prompt immediately
+    child.stdin.write('\n')
+    child.stdin.end()
+    child.on('close', (code) => {
+      if (code === 0 || code === null) resolve()
+      else reject(new Error(`pc.exe exited with code ${code}`))
+    })
+    child.on('error', reject)
+  })
+}
 
 function getToolsDir(): string {
   if (process.env['NODE_ENV'] === 'development' || !process.resourcesPath) {
@@ -33,17 +52,17 @@ export async function decryptPcSave(filePath: string): Promise<Buffer> {
   } catch (nativeErr) {
     // Fall back to exe on Windows if native fails
     const toolsDir = getToolsDir()
-    const exe = join(toolsDir, 'pc', 'pc.exe')
+    const exe = join(toolsDir, 'nioh2-pc', 'pc.exe')
     if (!existsSync(exe)) {
       throw new Error(
         `Native decryption failed (${nativeErr}) and pc.exe not found at ${exe}.`
       )
     }
     const { copyFileSync } = await import('fs')
-    const tmpPath = join(toolsDir, 'pc', 'SAVEDATA.BIN')
+    const tmpPath = join(toolsDir, 'nioh2-pc', 'SAVEDATA.BIN')
     copyFileSync(filePath, tmpPath)
-    await execFileAsync(exe, [tmpPath], { cwd: join(toolsDir, 'pc') })
-    return Buffer.from(readFileSync(join(toolsDir, 'pc', 'decr_SAVEDATA.BIN')))
+    await execFileAsync(exe, [tmpPath], { cwd: join(toolsDir, 'nioh2-pc') })
+    return Buffer.from(readFileSync(join(toolsDir, 'nioh2-pc', 'decr_SAVEDATA.BIN')))
   }
 }
 
@@ -58,17 +77,17 @@ export async function encryptPcSave(decryptedBuf: Buffer): Promise<Buffer> {
     return niohCrypt(decryptedBuf)
   } catch (nativeErr) {
     const toolsDir = getToolsDir()
-    const exe = join(toolsDir, 'pc', 'pc.exe')
+    const exe = join(toolsDir, 'nioh2-pc', 'pc.exe')
     if (!existsSync(exe)) {
       throw new Error(
         `Native encryption failed (${nativeErr}) and pc.exe not found at ${exe}.`
       )
     }
     const { writeFileSync, readFileSync } = await import('fs')
-    const tmpPath = join(toolsDir, 'pc', 'decr_SAVEDATA.BIN')
+    const tmpPath = join(toolsDir, 'nioh2-pc', 'decr_SAVEDATA.BIN')
     writeFileSync(tmpPath, decryptedBuf)
-    await execFileAsync(exe, [tmpPath], { cwd: join(toolsDir, 'pc') })
-    return Buffer.from(readFileSync(join(toolsDir, 'pc', 'decr_decr_SAVEDATA.BIN')))
+    await execFileAsync(exe, [tmpPath], { cwd: join(toolsDir, 'nioh2-pc') })
+    return Buffer.from(readFileSync(join(toolsDir, 'nioh2-pc', 'decr_decr_SAVEDATA.BIN')))
   }
 }
 
@@ -113,6 +132,51 @@ export async function encryptPs4Save(decryptedPath: string): Promise<Buffer> {
   await execFileAsync(exe, [decryptedPath], { cwd: join(toolsDir, 'ps4') })
   const { readFileSync } = await import('fs')
   return Buffer.from(readFileSync(join(toolsDir, 'ps4', 'APP.BIN_out.bin_out.bin')))
+}
+
+// ── Nioh 3 PC ─────────────────────────────────────────────────────────────────
+
+/**
+ * Decrypt a Nioh 3 SAVEDATA.BIN using the nioh3-pc/pc.exe tool.
+ * The exe is expected at tools/nioh3-pc/pc.exe and was obtained from
+ * https://github.com/alfizari/Nioh-3-Save-Editor (PC/ folder).
+ */
+export async function decryptNioh3PcSave(filePath: string): Promise<Buffer> {
+  const toolsDir = getToolsDir()
+  const exe = join(toolsDir, 'nioh3-pc', 'pc.exe')
+  if (!existsSync(exe)) {
+    throw new Error(
+      `Nioh 3 decryption requires pc.exe at ${exe}.\n` +
+      `Copy pc.exe from the PC/ folder of https://github.com/alfizari/Nioh-3-Save-Editor into tools/nioh3-pc/.`
+    )
+  }
+
+  const { copyFileSync, readFileSync } = await import('fs')
+  const workDir = join(toolsDir, 'nioh3-pc')
+  copyFileSync(filePath, join(workDir, 'SAVEDATA.BIN'))
+
+  // Use relative filename so the exe writes decr_SAVEDATA.BIN into its own directory.
+  // Pass \n to stdin because the exe always ends with "Press Enter To Exit...".
+  await runInteractiveExe(exe, ['SAVEDATA.BIN'], workDir)
+  return Buffer.from(readFileSync(join(workDir, 'decr_SAVEDATA.BIN')))
+}
+
+/**
+ * Re-encrypt a Nioh 3 decrypted buffer using nioh3-pc/pc.exe.
+ */
+export async function encryptNioh3PcSave(decryptedBuf: Buffer): Promise<Buffer> {
+  const toolsDir = getToolsDir()
+  const exe = join(toolsDir, 'nioh3-pc', 'pc.exe')
+  if (!existsSync(exe)) {
+    throw new Error(`Nioh 3 re-encryption requires pc.exe at ${exe}.`)
+  }
+
+  const { writeFileSync, readFileSync } = await import('fs')
+  const workDir = join(toolsDir, 'nioh3-pc')
+  writeFileSync(join(workDir, 'decr_SAVEDATA.BIN'), decryptedBuf)
+
+  await runInteractiveExe(exe, ['decr_SAVEDATA.BIN'], workDir)
+  return Buffer.from(readFileSync(join(workDir, 'decr_decr_SAVEDATA.BIN')))
 }
 
 // Legacy aliases kept for backward compatibility

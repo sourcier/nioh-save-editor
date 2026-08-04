@@ -3,6 +3,8 @@ import { useState } from 'react'
 import type { Effect, Scroll } from '../../../core/types'
 import { swapEndianHex } from '../../../core/binary-utils'
 import { SearchableSelect } from './SearchableSelect'
+import { SortableTh } from './SortableTh'
+import { useSort } from '../hooks/useSort'
 
 interface Props {
   scrolls: Scroll[]
@@ -10,6 +12,8 @@ interface Props {
   effectsList: string[]
   onChange: (scrolls: Scroll[]) => void
 }
+
+type ScrollSortKey = 'slot' | 'id' | 'name' | 'tier' | 'level'
 
 export function ScrollsTab({ scrolls, itemsJson, effectsList, onChange }: Props): React.JSX.Element {
   const [filter, setFilter] = useState('')
@@ -22,6 +26,17 @@ export function ScrollsTab({ scrolls, itemsJson, effectsList, onChange }: Props)
         return name.toLowerCase().includes(filter.toLowerCase())
       })
     : scrolls
+
+  const { sorted, sortKey, sortDir, requestSort } = useSort<Scroll, ScrollSortKey>(filtered, (s, key) => {
+    const hex = swapEndianHex(s.itemId1)
+    switch (key) {
+      case 'slot': return s.slot
+      case 'id': return hex
+      case 'name': return itemsJson[hex]?.name ?? 'Unknown'
+      case 'tier': return s.tier
+      case 'level': return s.itemLevel1
+    }
+  })
 
   function updateScroll(updated: Scroll): void {
     onChange(scrolls.map((s) => (s.slot === updated.slot ? updated : s)))
@@ -66,16 +81,16 @@ export function ScrollsTab({ scrolls, itemsJson, effectsList, onChange }: Props)
         <table>
           <thead>
             <tr>
-              <th>Slot</th>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Tier</th>
-              <th>Level</th>
+              <SortableTh label="Slot" sortKeyValue="slot" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="ID" sortKeyValue="id" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Name" sortKeyValue="name" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Tier" sortKeyValue="tier" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Level" sortKeyValue="level" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((s) => {
+            {sorted.map((s) => {
               const hex = swapEndianHex(s.itemId1)
               const name = itemsJson[hex]?.name ?? 'Unknown'
               return (

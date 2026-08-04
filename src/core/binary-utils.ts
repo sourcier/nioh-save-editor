@@ -1,4 +1,4 @@
-import type { Effect } from './types'
+import type { Effect, Nioh3Effect } from './types'
 
 export function readLE(buf: Buffer, offset: number, byteSize: number): number {
   switch (byteSize) {
@@ -72,4 +72,46 @@ export function writeEffects(buf: Buffer, offset: number, effects: Effect[]): nu
     offset += 12
   }
   return offset
+}
+
+/**
+ * Nioh 3 effects are 0x18 bytes each with a different layout:
+ *   +0x00 u16  effect_id
+ *   +0x04 u32  effect_value
+ *   +0x09 u8   category_effect_icon
+ *   +0x0A u8   effect_extra
+ *
+ * The id is stored raw (no byte-swap) — format to hex with no swap for JSON lookup.
+ */
+export function readNioh3Effects(buf: Buffer, offset: number, count: number): Nioh3Effect[] {
+  const effects: Nioh3Effect[] = []
+  for (let i = 0; i < count; i++) {
+    const eo = offset + i * 0x18
+    effects.push({
+      id:           readLE(buf, eo + 0x00, 2),
+      value:        readLE(buf, eo + 0x04, 4),
+      categoryIcon: readLE(buf, eo + 0x09, 1),
+      effectExtra:  readLE(buf, eo + 0x0A, 1)
+    })
+  }
+  return effects
+}
+
+export function writeNioh3Effects(buf: Buffer, offset: number, effects: Nioh3Effect[]): void {
+  for (let i = 0; i < effects.length; i++) {
+    const eo = offset + i * 0x18
+    const eff = effects[i]
+    writeLE(buf, eo + 0x00, eff.id, 2)
+    writeLE(buf, eo + 0x04, eff.value, 4)
+    writeLE(buf, eo + 0x09, eff.categoryIcon, 1)
+    writeLE(buf, eo + 0x0A, eff.effectExtra, 1)
+  }
+}
+
+/**
+ * Format a Nioh 3 effect id (raw u16) as the 4-char uppercase hex key used in
+ * effects-n3.json.  No byte-swap — just straight formatting.
+ */
+export function nioh3EffectIdToHex(id: number): string {
+  return id.toString(16).padStart(4, '0').toUpperCase()
 }

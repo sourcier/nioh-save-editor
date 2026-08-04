@@ -3,12 +3,16 @@ import { useMemo, useState } from 'react'
 import type { Item } from '../../../core/types'
 import { swapEndianHex } from '../../../core/binary-utils'
 import { SearchableSelect } from './SearchableSelect'
+import { SortableTh } from './SortableTh'
+import { useSort } from '../hooks/useSort'
 
 interface Props {
   items: Item[]
   itemsJson: Record<string, { name: string; type: string }>
   onChange: (items: Item[]) => void
 }
+
+type ItemSortKey = 'slot' | 'id' | 'name' | 'type' | 'quantity'
 
 export function ItemsTab({ items, itemsJson, onChange }: Props): React.JSX.Element {
   const [filter, setFilter] = useState('')
@@ -26,6 +30,17 @@ export function ItemsTab({ items, itemsJson, onChange }: Props): React.JSX.Eleme
     const matchesText = !filter || name.toLowerCase().includes(filter.toLowerCase()) || type.toLowerCase().includes(filter.toLowerCase())
     const matchesType = !typeFilter || type === typeFilter
     return matchesText && matchesType
+  })
+
+  const { sorted, sortKey, sortDir, requestSort } = useSort<Item, ItemSortKey>(filtered, (item, key) => {
+    const hex = swapEndianHex(item.itemId)
+    switch (key) {
+      case 'slot': return item.slot
+      case 'id': return hex
+      case 'name': return itemsJson[hex]?.name ?? 'Unknown'
+      case 'type': return itemsJson[hex]?.type ?? ''
+      case 'quantity': return item.quantity
+    }
   })
 
   function updateItem(updated: Item): void {
@@ -120,16 +135,16 @@ export function ItemsTab({ items, itemsJson, onChange }: Props): React.JSX.Eleme
           <thead>
             <tr>
               <th><input type="checkbox" checked={allFilteredSelected} onChange={toggleSelectAll} /></th>
-              <th>Slot</th>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Quantity</th>
+              <SortableTh label="Slot" sortKeyValue="slot" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="ID" sortKeyValue="id" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Name" sortKeyValue="name" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Type" sortKeyValue="type" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Quantity" sortKeyValue="quantity" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((item) => {
+            {sorted.map((item) => {
               const hex = swapEndianHex(item.itemId)
               const name = itemsJson[hex]?.name ?? 'Unknown'
               const type = itemsJson[hex]?.type ?? '?'

@@ -84,6 +84,111 @@ body {
   color: #fff;
 }
 
+/* ── Change game button ── */
+.change-game-btn {
+  font-weight: 600;
+}
+
+/* ── Game select landing page ── */
+.game-select-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px;
+  height: 100%;
+}
+
+.game-select-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.game-select-subtitle {
+  font-size: 14px;
+  color: var(--ev-c-text-2);
+  margin: 0 0 28px 0;
+}
+
+.game-select-cards {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 760px;
+}
+
+.game-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 28px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  color: #fff;
+  background: var(--color-background-soft);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.game-card:active {
+  transform: translateY(-1px);
+}
+
+.game-card--nioh2 {
+  background: linear-gradient(155deg, #3a1010 0%, #1b1b1f 65%);
+  border-color: #7a2a2a;
+}
+
+.game-card--nioh2:hover {
+  border-color: #c94b4b;
+}
+
+.game-card--nioh3 {
+  background: linear-gradient(155deg, #0d2a33 0%, #1b1b1f 65%);
+  border-color: #1f6a7a;
+}
+
+.game-card--nioh3:hover {
+  border-color: #3fb8cf;
+}
+
+.game-card-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.game-card-name {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.game-card-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 12px;
+}
+
+.game-card-cta {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
 /* ── Status bar ── */
 .status-bar {
   padding: 4px 16px;
@@ -225,6 +330,25 @@ thead th {
   z-index: 1;
 }
 
+thead th.sortable-th {
+  cursor: pointer;
+  user-select: none;
+}
+
+thead th.sortable-th:hover {
+  background: var(--color-background-mute);
+}
+
+thead th.sortable-th--active {
+  color: #4a90d9;
+}
+
+.sort-arrow {
+  display: inline-block;
+  font-size: 10px;
+  margin-left: 2px;
+}
+
 tbody tr:hover {
   background: var(--color-background-mute);
 }
@@ -342,6 +466,47 @@ button.danger:hover:not(:disabled) {
   -webkit-appearance: none;
 }
 
+.stat-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-field span {
+  width: 200px;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.stat-field input {
+  width: 120px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  font-size: 13px;
+  -moz-appearance: textfield;
+}
+
+.stat-field input::-webkit-outer-spin-button,
+.stat-field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.field-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* ── Editor panel ── */
 .editor-panel {
   overflow: auto;
@@ -421,6 +586,12 @@ button.danger:hover:not(:disabled) {
 }
 
 /* ── Effect rows ── */
+.effects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .effect-row {
   display: flex;
   align-items: center;
@@ -435,8 +606,20 @@ button.danger:hover:not(:disabled) {
   flex-shrink: 0;
 }
 
+.effect-label {
+  width: 26px;
+  font-size: 12px;
+  color: var(--ev-c-text-2);
+  flex-shrink: 0;
+}
+
 .effect-select {
   flex: 1;
+}
+
+.effect-select-wrap {
+  flex: 1;
+  min-width: 0;
 }
 
 .effect-mag {
@@ -453,6 +636,37 @@ button.danger:hover:not(:disabled) {
 
 .effect-mag::-webkit-inner-spin-button,
 .effect-mag::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.effect-mag-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.effect-mag-field span {
+  font-size: 12px;
+  color: var(--ev-c-text-2);
+  white-space: nowrap;
+}
+
+.effect-mag-field input {
+  width: 80px;
+  padding: 4px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  font-size: 13px;
+  flex-shrink: 0;
+  -moz-appearance: textfield;
+}
+
+.effect-mag-field input::-webkit-inner-spin-button,
+.effect-mag-field input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

@@ -3,6 +3,8 @@ import { useState } from 'react'
 import type { Effect, Weapon } from '../../../core/types'
 import { swapEndianHex } from '../../../core/binary-utils'
 import { SearchableSelect } from './SearchableSelect'
+import { SortableTh } from './SortableTh'
+import { useSort } from '../hooks/useSort'
 
 interface Props {
   weapons: Weapon[]
@@ -10,6 +12,8 @@ interface Props {
   effectsList: string[]
   onChange: (weapons: Weapon[]) => void
 }
+
+type WeaponSortKey = 'slot' | 'id' | 'name' | 'type' | 'level' | 'tier' | 'familiarity'
 
 export function WeaponsTab({ weapons, itemsJson, effectsList, onChange }: Props): React.JSX.Element {
   const [filter, setFilter] = useState('')
@@ -26,6 +30,19 @@ export function WeaponsTab({ weapons, itemsJson, effectsList, onChange }: Props)
     const matchesText = !filter || name.toLowerCase().includes(filter.toLowerCase()) || type.toLowerCase().includes(filter.toLowerCase())
     const matchesType = !typeFilter || type === typeFilter
     return matchesText && matchesType
+  })
+
+  const { sorted, sortKey, sortDir, requestSort } = useSort<Weapon, WeaponSortKey>(filtered, (w, key) => {
+    const hex = swapEndianHex(w.itemId)
+    switch (key) {
+      case 'slot': return w.slot
+      case 'id': return hex
+      case 'name': return itemsJson[hex]?.name ?? 'Unknown'
+      case 'type': return itemsJson[hex]?.type ?? ''
+      case 'level': return w.weaponLevel
+      case 'tier': return w.weaponTier
+      case 'familiarity': return w.familiarity
+    }
   })
 
   function updateWeapon(updated: Weapon): void {
@@ -100,18 +117,18 @@ export function WeaponsTab({ weapons, itemsJson, effectsList, onChange }: Props)
           <thead>
             <tr>
               <th><input type="checkbox" checked={allFilteredSelected} onChange={toggleSelectAll} /></th>
-              <th>Slot</th>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Level</th>
-              <th>Tier</th>
-              <th>Familiarity</th>
+              <SortableTh label="Slot" sortKeyValue="slot" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="ID" sortKeyValue="id" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Name" sortKeyValue="name" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Type" sortKeyValue="type" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Level" sortKeyValue="level" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Tier" sortKeyValue="tier" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
+              <SortableTh label="Familiarity" sortKeyValue="familiarity" activeKey={sortKey} dir={sortDir} onSort={requestSort} />
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((w) => {
+            {sorted.map((w) => {
               const hex = swapEndianHex(w.itemId)
               const name = itemsJson[hex]?.name ?? 'Unknown'
               const type = itemsJson[hex]?.type ?? '?'

@@ -2,12 +2,27 @@ import { dialog, ipcMain } from 'electron'
 import { readFileSync, writeFileSync } from 'fs'
 import { basename } from 'path'
 import { INTEGRITY_OFFSETS, PS4_PADDING_SIZE } from '../core/constants'
+import { N3_DECRYPTED_FILE_SIZE } from '../core/constants-n3'
 import { parseItems, parseScrolls, parseStats, parseWeapons } from '../core/save-parser'
+import { parseNioh3Equipment, parseNioh3Stats, parseNioh3Storage, parseNioh3Usables } from '../core/save-parser-n3'
 import { writeItems, writeScrolls, writeStats, writeWeapons } from '../core/save-writer'
-import type { CharacterStats, Item, SaveMode, Scroll, Weapon } from '../core/types'
+import { writeNioh3Equipment, writeNioh3Stats, writeNioh3Storage, writeNioh3Usables } from '../core/save-writer-n3'
+import { patchNioh3Checksum } from '../core/checksum-n3'
+import type {
+  CharacterStats,
+  CharacterStatsN3,
+  Item,
+  Nioh3Equipment,
+  Nioh3Usable,
+  SaveMode,
+  Scroll,
+  Weapon
+} from '../core/types'
 import {
+  decryptNioh3PcSave,
   decryptPcSave,
   decryptPs4Save,
+  encryptNioh3PcSave,
   encryptPcSave,
   encryptPs4Save
 } from './save-crypto'
@@ -15,6 +30,7 @@ import {
 interface SaveState {
   buffer: Buffer
   mode: SaveMode
+  game: 'Nioh2' | 'Nioh3'
   isAlreadyDecrypted: boolean
 }
 
@@ -27,9 +43,9 @@ function patchIntegrityBytes(buf: Buffer): void {
 }
 
 export function registerIpcHandlers(): void {
-  ipcMain.handle('save:open', async () => {
+  ipcMain.handle('save:open', async (_, game: 'Nioh2' | 'Nioh3') => {
     const result = await dialog.showOpenDialog({
-      title: 'Select Nioh 2 Save File',
+      title: game === 'Nioh3' ? 'Select Nioh 3 Save File (SAVEDATA.BIN)' : 'Select Nioh 2 Save File',
       filters: [
         { name: 'Save Files', extensions: ['BIN'] },
         { name: 'All Files', extensions: ['*'] }
@@ -45,6 +61,30 @@ export function registerIpcHandlers(): void {
     const fileName = basename(filePath)
 
     try {
+      if (game === 'Nioh3') {
+        if (fileName !== 'SAVEDATA.BIN') {
+          return { success: false, error: 'Nioh 3 saves must be named SAVEDATA.BIN.' }
+        }
+        const buffer = await decryptNioh3PcSave(filePath)
+        if (buffer.length !== N3_DECRYPTED_FILE_SIZE) {
+          return {
+            success: false,
+            error: `Unexpected decrypted size (0x${buffer.length.toString(16)}). Are you sure this is a Nioh 3 save?`
+          }
+        }
+        saveState = { buffer, mode: 'Nioh3', game: 'Nioh3', isAlreadyDecrypted: false }
+        return {
+          success: true,
+          game: 'Nioh3',
+          mode: 'Nioh3',
+          statsN3: parseNioh3Stats(buffer),
+          equipment: parseNioh3Equipment(buffer),
+          usables: parseNioh3Usables(buffer),
+          storage: parseNioh3Storage(buffer)
+        }
+      }
+
+      // ── Nioh 2 ───────────────────────────────────────────────────────────────
       let buffer: Buffer
       let mode: SaveMode
       let isAlreadyDecrypted = false
@@ -52,13 +92,14 @@ export function registerIpcHandlers(): void {
       if (fileName === 'SAVEDATA.BIN') {
         mode = 'PC'
         buffer = await decryptPcSave(filePath)
+        patchIntegrityBytes(buffer)
       } else if (fileName === 'APP.BIN') {
         mode = 'PS4'
         const ps4 = await decryptPs4Save(filePath)
         isAlreadyDecrypted = ps4.alreadyDecrypted
-        // PS4: prepend 0x148 zero bytes to align offsets with PC format
         const padding = Buffer.alloc(PS4_PADDING_SIZE, 0)
         buffer = Buffer.concat([padding, ps4.buffer])
+        patchIntegrityBytes(buffer)
       } else {
         return {
           success: false,
@@ -66,11 +107,10 @@ export function registerIpcHandlers(): void {
         }
       }
 
-      patchIntegrityBytes(buffer)
-      saveState = { buffer, mode, isAlreadyDecrypted }
-
+      saveState = { buffer, mode, game: 'Nioh2', isAlreadyDecrypted }
       return {
         success: true,
+        game: 'Nioh2',
         mode,
         stats: parseStats(buffer),
         weapons: parseWeapons(buffer),
@@ -86,25 +126,42 @@ export function registerIpcHandlers(): void {
     'save:write',
     async (
       _,
-      payload: {
-        stats: CharacterStats
-        weapons: Weapon[]
-        items: Item[]
-        scrolls: Scroll[]
-      }
+      payload:
+        | {
+            game: 'Nioh2'
+            stats: CharacterStats
+            weapons: Weapon[]
+            items: Item[]
+            scrolls: Scroll[]
+          }
+        | {
+            game: 'Nioh3'
+            statsN3: CharacterStatsN3
+            equipment: Nioh3Equipment[]
+            usables: Nioh3Usable[]
+            storage: Nioh3Usable[]
+          }
     ) => {
       if (!saveState) return { success: false, error: 'No save file loaded.' }
 
       const { buffer, mode, isAlreadyDecrypted } = saveState
 
-      writeStats(buffer, payload.stats)
-      writeWeapons(buffer, payload.weapons)
-      writeItems(buffer, payload.items)
-      writeScrolls(buffer, payload.scrolls)
+      if (payload.game === 'Nioh3') {
+        writeNioh3Stats(buffer, payload.statsN3)
+        writeNioh3Equipment(buffer, payload.equipment)
+        writeNioh3Usables(buffer, payload.usables)
+        writeNioh3Storage(buffer, payload.storage)
+        patchNioh3Checksum(buffer)
+      } else {
+        writeStats(buffer, payload.stats)
+        writeWeapons(buffer, payload.weapons)
+        writeItems(buffer, payload.items)
+        writeScrolls(buffer, payload.scrolls)
+      }
 
       const result = await dialog.showSaveDialog({
-        title: 'Save Nioh 2 Save File',
-        defaultPath: mode === 'PC' ? 'SAVEDATA.BIN' : 'APP.BIN',
+        title: payload.game === 'Nioh3' ? 'Save Nioh 3 Save File' : 'Save Nioh 2 Save File',
+        defaultPath: mode === 'PS4' ? 'APP.BIN' : 'SAVEDATA.BIN',
         filters: [
           { name: 'Save Files', extensions: ['BIN'] },
           { name: 'All Files', extensions: ['*'] }
@@ -114,7 +171,10 @@ export function registerIpcHandlers(): void {
       if (result.canceled || !result.filePath) return { success: false, error: 'Cancelled' }
 
       try {
-        if (mode === 'PC') {
+        if (payload.game === 'Nioh3') {
+          const encrypted = await encryptNioh3PcSave(buffer)
+          writeFileSync(result.filePath, encrypted)
+        } else if (mode === 'PC') {
           const encrypted = await encryptPcSave(buffer)
           writeFileSync(result.filePath, encrypted)
         } else if (isAlreadyDecrypted) {
@@ -184,6 +244,7 @@ export function registerIpcHandlers(): void {
 
       return {
         success: true,
+        game: 'Nioh2',
         stats: parseStats(merged),
         weapons: parseWeapons(merged),
         items: parseItems(merged),
